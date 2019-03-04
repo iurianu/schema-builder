@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style>
+#main-container {
+	padding-top: 10px;
+	font-size: 12px;
+}
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
+	float: left;
+}
+h1 {
+	font-size: 1.2rem;
+}
+p {
+	margin-bottom: 0;
+}
+label {
+	display: inline-block;
+}
+
+p label {
+	width: 120px;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+ul li {
+	padding: 0 0 5px 10px;
+}
+
+ul label {
+	width: 110px;
+	margin-bottom: 0;
+	font-style: italic;
+}
+
+.result {
+	border: 2px inset grey;
+}
+sup.info-note {
+	background-color: gold;
+	padding: 0 2px;
+	border: 1px solid #000;
+	border-radius: 50%;
+	cursor: help;
+}
+</style>
+<body>
+
+<div data-ng-app="" class="container" id="main-container">
+<section class="col-6">
+	<h1>Input the required data</h1>
+	<p><label>Type:</label> 
+		<select data-ng-model="type" placeholder="Type">
+		  <option value="Organization">Organization</option>
+		  <option value="LocalBusiness">LocalBusiness</option>
+		  <option value="Product">Product</option>
+		  <option value="Article">Article</option>
+		</select>
+	</p>
+	<p><label>Name:</label> <input type="text" data-ng-model="name" required placeholder="Name"></p>
+	<ul class="subtype">
+		<label>Address:</label>
+		<li><label>Street Address:</label>	<input type="text" data-ng-model="streetaddress" 	required placeholder="Street Address">	</li>
+		<li><label>Postal Code:</label>		<input type="number" data-ng-model="postalcode" 	required placeholder="Postal Code">		</li>
+		<li><label>Address Locality:</label> <input type="text" data-ng-model="addresslocality"	required placeholder="Address Locality">	</li>
+		<li><label>Address Region:</label>	<input type="text" data-ng-model="addressregion" 	required placeholder="Address Region">	</li>
+		<li><label>Address Country:</label>	<input type="text" data-ng-model="addresscountry" 	required placeholder="Address Country">	</li>
+	</ul>
+	<p><label>Phone:</label> <input type="tel" data-ng-model="phone" required placeholder="Telephone"></p>
+	<p><label>Price Range:</label> <input type="text" data-ng-model="pricerange" required placeholder="Price Range"></p>
+	<p><label>Image:</label> <input type="url" data-ng-model="imagelink" required placeholder="Image URL"></p>
+	<p><label>Description:</label> <textarea maxlength="156" data-ng-model="description" placeholder="Maximum 156 Characters"></textarea></p>
+</section>
+<!--
+<sup class="info-note" id="country-note">?</sup>
+-->
+<section class="col-6 result">
+&lt;script type="application/ld+json"&gt;<br>
+&#123;<br>
+"@context": "http://schema.org",<br>
+"@type": "{{type}}",<br>
+"name": "{{name}}",<br>
+"address": &#123;<br>
+&#9;"@type": "PostalAddress",<br>
+&#9;"streetAddress": "{{streetaddress}}",<br>
+&#9;"postalCode": "{{postalcode}}",<br>
+&#9;"addressLocality": "{{addresslocality}}",<br>
+&#9;"addressRegion": "{{addressregion}}",<br>
+&#9;"addressCountry": "{{addresscountry}}"<br>
+&#125;,<br>
+"telephone": "{{phone}}",<br>
+"priceRange": "{{pricerange}}",<br>
+"image": "{{imagelink}}",<br>
+"description": "{{description}}"
+<br>&#125;<br>
+&lt;/script&gt;
+</section>
+
+</div>
+
+</body>
+</html>
