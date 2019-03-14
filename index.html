@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>AngularJS Schema Creator</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"/>
+
+<style>
+#main-container {
+	padding-top: 10px;
+	font-size: 12px;
+}
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12 {
+	float: left;
+}
+h1 {
+	font-size: 1.2rem;
+}
+p {
+	margin-bottom: 0;
+}
+label {
+	display: inline-block;
+}
+
+p label {
+	width: 120px;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+ul li {
+	padding-left: 10px;
+}
+
+ul label {
+	width: 110px;
+	margin-bottom: 0;
+	font-style: italic;
+}
+
+input, select, textarea {
+	width: 200px;
+	margin-bottom: 5px;
+	-webkit-border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+	-ms-border-radius: 0 !important;
+	-o-border-radius: 0 !important;
+	border-radius: 0 !important;
+	overflow: hidden;
+	outline: none !important;
+}
+
+input, select {
+	height: 35px;
+}
+
+.result {
+	border: 2px inset grey;
+}
+
+sup.info-note {
+	background-color: gold;
+	padding: 0 2px;
+	border: 1px solid #000;
+	border-radius: 50%;
+	cursor: help;
+}
+
+.hidden {display: none;}
+.visible {display: block;}
+
+</style>
+
+<script>
+
+var app = angular.module('schemaBuilder', []);
+app.controller('dateCtrl', function($scope) {
+	$scope.date = new Date();
+});
+
+app.controller('schemaTypes', function($scope) {
+    $scope.types = ["Entity", "Product", "Event", "Place", "Article"];
+});
+
+function switchTypes(){
+
+	var typeSelect = document.getElementById('schemaTypes').selectedIndex;
+	var typeValue  = document.getElementsByTagName('option')[typeSelect].text;
+
+	switch(typeValue) {
+	  case 'Entity':
+	    	document.getElementById('organizationTypes').setAttribute('class','visible');
+	    	document.getElementById('productTypes').setAttribute('class','hidden');
+	    break;
+	  case 'Product':
+	    	document.getElementById('productTypes').setAttribute('class','visible');
+	    	document.getElementById('organizationTypes').setAttribute('class','hidden');
+	    break;
+      default:
+	    document.getElementById('schemaTypes').setAttribute('data-ng-model','maintype');
+	}
+}
+
+</script>
+</head>
+<body>
+
+<div data-ng-app="schemaBuilder" class="container" id="main-container">
+<section class="col-6">
+	<h1>Input the required data</h1>
+	<fieldset id="typeSelector">
+		<p><label>Type:</label> 
+			<select data-ng-controller="schemaTypes" id="schemaTypes" onchange="switchTypes()">
+				<option value="" disabled selected>Select Type</option>
+				<option value="{{type}}" data-ng-repeat="type in types">{{type}}</option>
+			</select>
+			<fieldset id="organizationTypes" class="hidden">
+				<label>Select Entity Type:</label>
+				<select data-ng-model="maintype">
+					<option value="" disabled selected>Entity Type</option>
+					<option value="Person">Person</option>
+					<option value="Organization">Organization</option>
+					<option value="Corporation">Corporation</option>
+					<option value="Consortium">Consortium</option>
+					<option value="Project">Project</option>
+					<option value="Airline">Airline</option>
+					<option value="LibrarySystem">Library System</option>
+					<option value="WorkersUnion">Workers Union</option>		
+					<option value="LocalBusiness">Local Business</option>
+					<option value="EducationalOrganization">Educational Organization</option>
+					<option value="GovernmentOrganization">Government Organization</option>
+					<option value="SportsOrganization">Sports Organization</option>
+					<option value="MedicalOrganization">Medical Organization</option>
+					<option value="NewsMediaOrganization">News Media Organization</option>
+					<option value="NGO">Non-Governmental Organization (NGO)</option>
+				</select>
+			</fieldset>
+			<fieldset id="productTypes" class="hidden">
+				<label>Select Product Type:</label>
+				<select data-ng-model="maintype">
+					<option value="" disabled selected>Product Type</option>
+					<option value="Product">Product</option>
+					<option value="IndividualProduct">Individual Product</option>
+					<option value="ProductModel">Product Model</option>
+					<option value="SomeProducts">Some Products</option>
+					<option value="Vehicle">Vehicle</option>
+				</select>
+			</fieldset>
+		</p>
+	</fieldset>
+		<p><label>Name:</label> <input type="text" data-ng-model="name" required placeholder="Name"></p>
+		<p>	<label for="start">Start date:</label>
+			<input type="date" id="start" name="startdate" data-ng-model="datecreated" min="1960-01-01" max="2020-01-01">
+		</p>
+		<ul class="subtype">
+			<label>Address:</label>
+			<li><label>Street Address:</label>	<input type="text" data-ng-model="streetaddress" 	required placeholder="Street Address">	</li>
+			<li><label>Postal Code:</label>		<input type="number" data-ng-model="postalcode" 	required placeholder="Postal Code">		</li>
+			<li><label>Address Locality:</label> <input type="text" data-ng-model="addresslocality"	required placeholder="Address Locality">	</li>
+			<li><label>Address Region:</label>	<input type="text" data-ng-model="addressregion" 	required placeholder="Address Region">	</li>
+			<li><label>Address Country:</label>	<input type="text" data-ng-model="addresscountry" 	required placeholder="Address Country">	</li>
+		</ul>
+		<p><label>Phone:</label> <input type="tel" data-ng-model="phone" required placeholder="Telephone"></p>
+		<p><label>Price Range:</label> <input type="text" data-ng-model="pricerange" required placeholder="Price Range"></p>
+		<p><label>Image:</label> <input type="url" data-ng-model="imagelink" required placeholder="Image URL"></p>
+		<p><label>Description:</label> <textarea maxlength="156" data-ng-model="description" placeholder="Maximum 156 Characters"></textarea></p>
+</section>
+
+
+<!--
+<sup class="info-note" id="country-note">?</sup>
+-->
+<section class="col-6 result">
+&lt;script type="application/ld+json"&gt;<br>
+&#123;<br>
+"@context": "http://schema.org",<br>
+"@type": "{{maintype}}",<br>
+"name": "{{name}}",<br>
+"dateCreated": "{{datecreated}}",<br>
+"address": &#123;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"@type": "PostalAddress",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"streetAddress": "{{streetaddress}}",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"postalCode": "{{postalcode}}",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"addressLocality": "{{addresslocality}}",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"addressRegion": "{{addressregion}}",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"addressCountry": "{{addresscountry}}"<br>
+&#125;,<br>
+"telephone": "{{phone}}",<br>
+"priceRange": "{{pricerange}}",<br>
+"image": "{{imagelink}}",<br>
+"description": "{{description}}",<br>
+"sdAuthor": "SD Master",<br>
+"sdDatePublished": "<span data-ng-controller="dateCtrl" data-ng-model="sdDate">{{date | date:'yyyy-MM-dd'}}</span>"
+<br>&#125;<br>
+&lt;/script&gt;
+</section>
+
+</div>
+
+</body>
+</html>
